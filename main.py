@@ -29,8 +29,6 @@ for i in range(len(phi)):
   for k in range(len(theta)): 
     cos_zeta[i,k] = (np.sin(-theta_obs)*np.sin(theta[k])*np.sin(phi[i]))+(np.cos(-theta_obs)*np.cos(theta[k]))
     sin_zeta[i,k] = np.sqrt(1-(cos_zeta[i, k])**2)
-    if ((i+1)>=(dot_num/4) and (i+1)<=(dot_num*1.5/2)):
-      sin_zeta[i,k] = -sin_zeta[i,k]
     if (cos_zeta[i,k]>=0):
       zeta[i,k] = np.arccos(cos_zeta[i,k])
     else:
@@ -92,7 +90,8 @@ z_mat[np.isnan(z_mat)] = 0
 z_mat[z_mat > 0] = 1
 
 integral_y = np.trapz(z_mat, y_vec, axis=0)
-integral = np.trapz(integral_y, x_vec, axis=0)
+integral_x = np.trapz(integral_y, x_vec, axis=0)
+integral = integral_x*2
 
 plt.scatter(x, y, color = 'blue')
 plt.scatter(-x, y, color = 'blue')
